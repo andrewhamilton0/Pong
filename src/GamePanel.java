@@ -7,10 +7,10 @@ import java.util.Random;
 public class GamePanel extends JPanel implements ActionListener {
 
     final static int SCREEN_HEIGHT = 650;
-    final static int SCREEN_WIDTH = 1275;
+    final static int SCREEN_WIDTH = 1270;
     final static int UNIT_SIZE = 25;
-    final static int DELAY = 1;
-    final static int BALL_SPEED = 12;
+    final static int DELAY = 10;
+    final static double BALL_SPEED = 10;
     final static int PADDLE_LENGTH = 5;
     int ballAngle;
     int rightPaddleX;
@@ -19,8 +19,8 @@ public class GamePanel extends JPanel implements ActionListener {
     int leftPaddleY;
     int leftScore;
     int rightScore;
-   int ballX = SCREEN_WIDTH / 2;
-   int ballY = SCREEN_HEIGHT / 2;
+    int ballX = SCREEN_WIDTH / 2;
+    int ballY = SCREEN_HEIGHT / 2;
 
     boolean leftPaddleOn;
     boolean rightPaddleOn;
@@ -80,15 +80,20 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void checkCollision(){
+        //Checks Collision with left paddle
         if(((ballX <= leftPaddleX + UNIT_SIZE) && (ballX >= leftPaddleX)) && (((ballY + UNIT_SIZE) >= (leftPaddleY)) && (ballY <= (leftPaddleY + PADDLE_LENGTH * UNIT_SIZE)))){
+            if (ballDirection == "W"){
+                ballDirection = "SE";
+            }
             if (ballDirection == "NW"){
                 ballDirection = "NE";
             }
             if (ballDirection == "SW"){
                 ballDirection = "SE";
             }
-            ballAngle = (random.nextInt() % 3);
+            ballAngle = (random.nextInt() % 5);
         }
+        //Checks collision with right paddle
         if(((ballX + UNIT_SIZE >= rightPaddleX) && (ballX + UNIT_SIZE <= rightPaddleX + UNIT_SIZE)) && (((ballY + UNIT_SIZE) >= (rightPaddleY)) && (ballY <= (rightPaddleY + PADDLE_LENGTH * UNIT_SIZE)))){
             if (ballDirection == "E"){
                 ballDirection = "SW";
@@ -99,9 +104,10 @@ public class GamePanel extends JPanel implements ActionListener {
             if (ballDirection == "NE"){
                 ballDirection = "NW";
             }
-            ballAngle = (random.nextInt() % 4+ 1);
+            ballAngle = (random.nextInt() % 5);
         }
-        if(ballY == 1){
+
+        if(ballY <= 5){
             if (ballDirection == "NE"){
                 ballDirection = "SE";
             }
@@ -109,7 +115,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 ballDirection = "SW";
             }
         }
-        if(ballY + UNIT_SIZE == SCREEN_HEIGHT){
+        if(ballY + UNIT_SIZE >= SCREEN_HEIGHT - 5){
             if (ballDirection == "SE"){
                 ballDirection = "NE";
             }
@@ -132,35 +138,62 @@ public class GamePanel extends JPanel implements ActionListener {
             ballX += BALL_SPEED;
         }
         if(ballDirection == "NE"){
-            if(ballAngle == 0) {
+            if((ballAngle == 2) || (ballAngle == 3) || (ballAngle == 4)){
                 ballY -= BALL_SPEED;
                 ballX += BALL_SPEED;
+            }
+            if(ballAngle == 0) {
+                ballY -= BALL_SPEED +2;
+                ballX += BALL_SPEED -2;
             }
             if(ballAngle == 1) {
-                ballY -= BALL_SPEED;
-                ballX += BALL_SPEED;
+                ballY -= BALL_SPEED -2;
+                ballX += BALL_SPEED +2;
             }
-            if(ballAngle == 2) {
-                ballY -= BALL_SPEED;
-                ballX += BALL_SPEED;
-            }
-
         }
         if(ballDirection == "NW"){
-            ballY -= BALL_SPEED;
-            ballX -= BALL_SPEED;
+            if((ballAngle == 2) || (ballAngle == 3) || (ballAngle == 4)){
+                ballY -= BALL_SPEED;
+                ballX -= BALL_SPEED;
+            }
+            if(ballAngle == 0) {
+                ballY -= BALL_SPEED +2;
+                ballX -= BALL_SPEED -2;
+            }
+            if(ballAngle == 1) {
+                ballY -= BALL_SPEED -2;
+                ballX -= BALL_SPEED +2;
+            }
         }
-        if(ballDirection == "SW"){
-            ballY += BALL_SPEED;
-            ballX -= BALL_SPEED;
-        }
-        if(ballDirection == "SE"){
-            ballY += BALL_SPEED;
-            ballX += BALL_SPEED;
+        if(ballDirection == "SW") {
+            if ((ballAngle == 2) || (ballAngle == 3) || (ballAngle == 4)) {
+                ballY += BALL_SPEED;
+                ballX -= BALL_SPEED;
+            }
+            if (ballAngle == 0) {
+                ballY += BALL_SPEED +2;
+                ballX -= BALL_SPEED -2;
+            }
+            if (ballAngle == 1) {
+                ballY += BALL_SPEED -2;
+                ballX -= BALL_SPEED +2;
+            }
         }
 
-
-
+        if(ballDirection == "SE") {
+            if ((ballAngle == 2) || (ballAngle == 3) || (ballAngle == 4)){
+                ballY += BALL_SPEED;
+                ballX += BALL_SPEED;
+            }
+            if (ballAngle == 0) {
+                ballY += BALL_SPEED +2;
+                ballX += BALL_SPEED -2;
+            }
+            if (ballAngle == 1) {
+                ballY += BALL_SPEED -2;
+                ballX += BALL_SPEED +2;
+            }
+        }
     }
 
     public void draw(Graphics g) {
