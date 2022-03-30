@@ -56,17 +56,19 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     public void moveRightPaddle() {
-        if (rightPaddleDirection == 'D') {
+        if ((rightPaddleDirection == 'D') && (rightPaddleY < (SCREEN_HEIGHT - (PADDLE_LENGTH * UNIT_SIZE)))) {
             rightPaddleY += UNIT_SIZE / 2;
-        } else if (rightPaddleDirection == 'U') {
+        }
+        if ((rightPaddleDirection == 'U') && (rightPaddleY > 3)) {
             rightPaddleY -= UNIT_SIZE / 2;
         }
     }
 
     public void moveLeftPaddle() {
-        if (leftPaddleDirection == 'D') {
+        if ((leftPaddleDirection == 'D') && (leftPaddleY < (SCREEN_HEIGHT - (PADDLE_LENGTH * UNIT_SIZE)))) {
             leftPaddleY += UNIT_SIZE / 2;
-        } else if (leftPaddleDirection == 'U') {
+        }
+        if ((leftPaddleDirection == 'U') && (leftPaddleY > 3)) {
             leftPaddleY -= UNIT_SIZE / 2;
         }
     }
